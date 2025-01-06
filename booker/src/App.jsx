@@ -3,20 +3,26 @@ import Form from "./Form";
 
 function App() {
   const [books, setBooks] = useState([
-    "The Great Gatsby",
-    "The Catcher in the Rye",
-    "To Kill a Mockingbird",
-    "1984",
-    "Pride and Prejudice",
+    {
+      id: crypto.randomUUID(),
+      text: "The Great Gatsby",
+    },
+    {
+      id: crypto.randomUUID(),
+      text: 1984,
+    },
   ]);
 
   const updateBooks = (book) => {
-    setBooks([book, ...books]);
+    const newBook = {
+      id: crypto.randomUUID(),
+      text: book,
+    };
+    setBooks([newBook, ...books]);
   };
 
-  const deleteBook = (book) => {
-    setBooks(books.filter((b) => b !== book));
-console.log(book);
+  const deleteBook = (id) => {
+    setBooks(books.filter((b) => b.id !== id));
   };
 
   return (
@@ -28,9 +34,10 @@ console.log(book);
       <Form onSubmit={updateBooks} />
 
       {books.map((book) => (
-        <pre key={book}>{book} <button onClick={
-          () => deleteBook(book)
-        }>Delete</button></pre>
+        <pre key={book.id}>
+          {book.text}{" "}
+          <button onClick={() => deleteBook(book.id)}>Delete</button>
+        </pre>
       ))}
     </>
   );
